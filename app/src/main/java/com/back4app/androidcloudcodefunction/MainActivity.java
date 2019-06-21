@@ -11,6 +11,8 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Map<String, String> parameters = new HashMap<>();
-
-        final Button callFunction = findViewById(R.id.btnCloudCodeFunction);
-        callFunction.setOnClickListener(new View.OnClickListener() {
+        final Button callFunctionWelcome = findViewById(R.id.btnCloudCodeFunctionWelcome);
+        callFunctionWelcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Map<String, String> parameters = new HashMap<>();
                 parameters.put("name", "Natália");
                 ParseCloud.callFunctionInBackground("welcomeToBack4App", parameters
                         , new FunctionCallback<String>() {
@@ -46,6 +47,36 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        final Button callFunctionSendJSONArray = findViewById(R.id.btnCloudCodeFunctionPushSendArray);
+
+        callFunctionSendJSONArray.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Map<String, String> parameters = new HashMap<>();
+                JSONArray array = new JSONArray();
+                array.put("android");
+                array.put("ios");
+                parameters.put("devices", String.valueOf(array));
+                ParseCloud.callFunctionInBackground("sendPushFromArrayToFunction", parameters
+                        , new FunctionCallback<String>() {
+                            @Override
+                            public void done(String object, ParseException e) {
+                                if (e == null) {
+                                    // Everything is alright
+                                    Log.d("Debug",object);
+                                    Toast.makeText(MainActivity.this, object, Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    // Something went wrong
+                                    Log.d("Debug",e.getMessage());
+                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
 
     }
 }
