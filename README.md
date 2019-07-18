@@ -8,7 +8,7 @@ If it is your first time with Back4App, [create a account](https://www.back4app.
 
 #### Step 1.1 - Replace Keys
 
-Don't forget to paste your Back4App App ID and Javascript Key in the `./app/src/src/main/res/values/strings.xml` file.
+Don't forget to paste your Back4App App ID and Client Key in the `./app/src/src/main/res/values/strings.xml` file.
 
 #### Step 1.2 - Upload Cloud Code Function
 
